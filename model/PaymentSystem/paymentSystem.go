@@ -27,17 +27,17 @@ func (ps *PaymentSystem) AddTransaction(transaction transaction.Transaction) {
 	ps.Transactions = append(ps.Transactions, transaction)
 }
 
-func (ps *PaymentSystem) ProcessingTransactions (transaction transaction.Transaction)error{
-	from,ok  := ps.Users[transaction.FromID]
-	if !ok{
+func (ps *PaymentSystem) ProcessingTransactions(transaction transaction.Transaction) error {
+	from, ok := ps.Users[transaction.FromID]
+	if !ok {
 		return errors.New("пользователь не найден")
 	}
-	to,ok :=ps.Users[transaction.ToID]
+	to, ok := ps.Users[transaction.ToID]
 	if !ok {
 		return errors.New("пользователь не найден")
 	}
 	err := from.Withdraw(transaction.Amount)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	to.Deposit(transaction.Amount)
